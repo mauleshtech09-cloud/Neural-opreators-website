@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# NovaBuilds Agency Portfolio
+# Neural opreators Agency Portfolio
 
 A modern, high-converting portfolio website for a student-run digital service brand specializing in AI Automation and Website Development Services.
 
