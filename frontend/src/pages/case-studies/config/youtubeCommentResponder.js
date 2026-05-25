@@ -79,8 +79,12 @@ export const youtubeCommentResponderConfig = {
     ],
   },
   screenshotGallery: {
-    title: 'Automation Screenshots',
-    count: 6,
+    title: 'Module Screenshots',
+    frames: [
+      { id: 'yt-1', image: null, imageAlt: 'Module screenshot 1' },
+      { id: 'yt-2', image: null, imageAlt: 'Module screenshot 2' },
+      { id: 'yt-3', image: null, imageAlt: 'Module screenshot 3' },
+    ],
   },
   videoDemo: {
     id: 'video-demo',

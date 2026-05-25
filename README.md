@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NovaBuilds Agency Portfolio
 
 A modern, high-converting portfolio website for a student-run digital service brand specializing in AI Automation and Website Development Services.
@@ -51,3 +52,7 @@ The frontend will run by default on port 5173.
 ## Usage
 - Navigating the robust site using standard links (`/about`, `/services`, `/projects`, `/pricing`)
 - On the `/pricing` page, you can test the **Contact Lead System**, which automatically transmits inquiry data to the backend API.
+=======
+# Neural-opreators-website
+AI automation agency portfolio
+>>>>>>> 855ba47ea7724a637dd81077072ce9322f1c1781

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { WHATSAPP_URL, EMAIL_URL } from '../config/contact';
 import { Check, MessageSquare, Mail } from 'lucide-react';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
@@ -177,14 +178,14 @@ const Pricing = () => {
               </p>
               <div className={styles.contactActions}>
                 <a
-                  href="https://wa.me/1234567890"
+                  href={WHATSAPP_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className={styles.whatsappBtn}
                 >
                   <MessageSquare size={22} aria-hidden /> Contact on WhatsApp
                 </a>
-                <a href="mailto:hello@neuraloperators.com" className={styles.emailBtn}>
+                <a href={EMAIL_URL} className={styles.emailBtn}>
                   <Mail size={22} aria-hidden /> Email Us Directly
                 </a>
               </div>

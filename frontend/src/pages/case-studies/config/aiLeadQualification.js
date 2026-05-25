@@ -21,6 +21,11 @@ import {
   Layers,
 } from 'lucide-react';
 
+import workflowDiagram from "../../../assets/lead_workflow_diagram.jpg";
+// import screenshotAi from '../../../assets/case-studies/lead/ai-classification.jpg';
+// import screenshotRouter from '../../../assets/case-studies/lead/router-slack.jpg';
+// import screenshotSheets from '../../../assets/case-studies/lead/google-sheets.jpg';
+
 export const aiLeadQualificationConfig = {
   hero: {
     title: 'AI Lead Qualification System',
@@ -50,6 +55,9 @@ export const aiLeadQualificationConfig = {
     title: 'AI Lead Qualification Workflow',
     subtitle:
       'A connected automation pipeline that transforms raw form submissions into classified, actionable business intelligence.',
+
+    image: workflowDiagram,
+    imageAlt: 'AI Lead Qualification workflow diagram',
     flowText:
       'Tally Form → AI Analysis → JSON Parsing → Router → Slack / Gmail / Todoist / Google Sheets',
   },
@@ -72,7 +80,11 @@ export const aiLeadQualificationConfig = {
   },
   screenshotGallery: {
     title: 'Module Screenshots',
-    count: 6,
+    frames: [
+      { id: 'lead-1', image: null, imageAlt: 'Module screenshot 1' },
+      { id: 'lead-2', image: null, imageAlt: 'Module screenshot 2' },
+      { id: 'lead-3', image: null, imageAlt: 'Module screenshot 3' },
+    ],
   },
   videoDemo: {
     id: 'video-demo',

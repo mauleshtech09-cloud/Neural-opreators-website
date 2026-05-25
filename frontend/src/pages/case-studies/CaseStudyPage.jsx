@@ -5,8 +5,9 @@ import { ArrowRight, AlertTriangle, MessageCircle } from 'lucide-react';
 import SectionShell from './shared/SectionShell';
 import SectionHeader from './shared/SectionHeader';
 import DiagramPlaceholder from './shared/DiagramPlaceholder';
-import ScreenshotPlaceholder from './shared/ScreenshotPlaceholder';
+import ScreenshotFrame from './shared/ScreenshotFrame';
 import VideoDemoPlaceholder from './shared/VideoDemoPlaceholder';
+import { WHATSAPP_URL } from '../../config/contact';
 import { ease, fadeUp, stagger } from './shared/motion';
 
 function HeroGlow({ accent = 'blue' }) {
@@ -85,9 +86,9 @@ function CtaButton({ button }) {
   if (button.type === 'whatsapp') {
     return (
       <a
-        href="https://wa.me/1234567890"
+        href={WHATSAPP_URL}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="inline-flex min-h-[52px] w-full min-w-[200px] items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-600/20 px-8 py-3.5 text-base font-semibold text-emerald-100 transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-600/30 hover:shadow-glow-green sm:w-auto"
       >
         <MessageCircle className="h-5 w-5" aria-hidden />
@@ -194,7 +195,23 @@ export default function CaseStudyPage({ config }) {
           title={workflow.title}
           subtitle={workflow.subtitle}
         />
-        <DiagramPlaceholder />
+
+        {workflow.image ? (
+          <motion.img
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            src={workflow.image}
+            alt={workflow.imageAlt || 'Workflow diagram'}
+            className="mx-auto mt-10 w-full max-w-5xl rounded-2xl border border-zinc-800/90 shadow-2xl"
+          />
+        ) : (
+          <div className="mt-10">
+            <DiagramPlaceholder />
+          </div>
+        )}
+
         <motion.p
           initial="hidden"
           whileInView="visible"
@@ -237,22 +254,33 @@ export default function CaseStudyPage({ config }) {
       </SectionShell>
 
       {/* SCREENSHOT GALLERY */}
-      {screenshotGallery && (
+      {screenshotGallery?.frames?.length > 0 && (
         <SectionShell className="bg-surface">
+          {screenshotGallery.title && (
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+              variants={fadeUp}
+              className="mb-8 text-center text-2xl font-extrabold tracking-tight text-zinc-50 sm:mb-10 sm:text-3xl lg:mb-12"
+            >
+              {screenshotGallery.title}
+            </motion.h2>
+          )}
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-40px' }}
             variants={stagger}
+            className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
           >
-            <h3 className="mb-8 text-center text-xl font-bold text-zinc-50 sm:text-2xl">
-              {screenshotGallery.title}
-            </h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-              {Array.from({ length: screenshotGallery.count }).map((_, i) => (
-                <ScreenshotPlaceholder key={i} />
-              ))}
-            </div>
+            {screenshotGallery.frames.map((frame, index) => (
+              <ScreenshotFrame
+                key={frame.id ?? `screenshot-${index}`}
+                image={frame.image}
+                imageAlt={frame.imageAlt}
+              />
+            ))}
           </motion.div>
         </SectionShell>
       )}
