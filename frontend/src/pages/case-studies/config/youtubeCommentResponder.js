@@ -24,7 +24,7 @@ import {
   Target,
 } from 'lucide-react';
 
-import youtubeDiagram from "../../../assets/youtube_comment_automation_diagram.png";
+import youtubeDiagram from "../../../assets/youtube_comment_automation_diagram.jpg";
 
 export const youtubeCommentResponderConfig = {
   hero: {
