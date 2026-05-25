@@ -22,9 +22,9 @@ import {
 } from 'lucide-react';
 
 import workflowDiagram from "../../../assets/lead_workflow_diagram.jpg";
-// import screenshotAi from '../../../assets/case-studies/lead/ai-classification.jpg';
-// import screenshotRouter from '../../../assets/case-studies/lead/router-slack.jpg';
-// import screenshotSheets from '../../../assets/case-studies/lead/google-sheets.jpg';
+import lead1 from "../../../assets/screenshots/Lead automation/lead-1.png";
+import lead2 from "../../../assets/screenshots/Lead automation/lead-2.png";
+import lead3 from "../../../assets/screenshots/Lead automation/lead-3.png";
 
 export const aiLeadQualificationConfig = {
   hero: {
@@ -81,9 +81,9 @@ export const aiLeadQualificationConfig = {
   screenshotGallery: {
     title: 'Module Screenshots',
     frames: [
-      { id: 'lead-1', image: null, imageAlt: 'Module screenshot 1' },
-      { id: 'lead-2', image: null, imageAlt: 'Module screenshot 2' },
-      { id: 'lead-3', image: null, imageAlt: 'Module screenshot 3' },
+      { id: 'lead-1', image: lead1, imageAlt: 'Module screenshot 1' },
+      { id: 'lead-2', image: lead2, imageAlt: 'Module screenshot 2' },
+      { id: 'lead-3', image: lead3, imageAlt: 'Module screenshot 3' },
     ],
   },
   videoDemo: {

@@ -6,6 +6,8 @@ import SectionShell from './shared/SectionShell';
 import SectionHeader from './shared/SectionHeader';
 import DiagramPlaceholder from './shared/DiagramPlaceholder';
 import ScreenshotFrame from './shared/ScreenshotFrame';
+import PreviewableImage from './shared/PreviewableImage';
+import { LightboxProvider } from './shared/LightboxProvider';
 import VideoDemoPlaceholder from './shared/VideoDemoPlaceholder';
 import { WHATSAPP_URL } from '../../config/contact';
 import { ease, fadeUp, stagger } from './shared/motion';
@@ -104,6 +106,7 @@ export default function CaseStudyPage({ config }) {
     config;
 
   return (
+    <LightboxProvider>
     <div className="overflow-x-hidden bg-surface text-zinc-200">
       {/* HERO */}
       <section className="relative flex min-h-[calc(100dvh-5rem)] items-center bg-hero-gradient pt-8 pb-16 sm:pt-12 sm:pb-20">
@@ -197,15 +200,19 @@ export default function CaseStudyPage({ config }) {
         />
 
         {workflow.image ? (
-          <motion.img
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
-            src={workflow.image}
-            alt={workflow.imageAlt || 'Workflow diagram'}
-            className="mx-auto mt-10 w-full max-w-5xl rounded-2xl border border-zinc-800/90 shadow-2xl"
-          />
+            className="mx-auto mt-10 w-full max-w-5xl"
+          >
+            <PreviewableImage
+              src={workflow.image}
+              alt={workflow.imageAlt || 'Workflow diagram'}
+              className="w-full rounded-2xl border border-zinc-800/90 shadow-2xl"
+            />
+          </motion.div>
         ) : (
           <div className="mt-10">
             <DiagramPlaceholder />
@@ -404,5 +411,6 @@ export default function CaseStudyPage({ config }) {
         </div>
       </section>
     </div>
+    </LightboxProvider>
   );
 }
