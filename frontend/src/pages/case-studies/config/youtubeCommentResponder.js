@@ -24,6 +24,8 @@ import {
   Target,
 } from 'lucide-react';
 
+import youtubeDiagram from "../assets/youtube_comment_automation_diagram.png";
+
 export const youtubeCommentResponderConfig = {
   hero: {
     title: 'YouTube Comment Responder Automation',
@@ -57,6 +59,8 @@ export const youtubeCommentResponderConfig = {
     title: 'AI Comment Automation Workflow',
     subtitle:
       'An intelligent pipeline that listens for comments, understands intent, and routes responses through AI-powered automation.',
+
+    image: youtubeDiagram,  
     flowText:
       'YouTube Comment Trigger → AI Intent Detection → JSON Parser → Router → Gemini AI → YouTube Auto Reply → Slack / Google Sheets',
   },
