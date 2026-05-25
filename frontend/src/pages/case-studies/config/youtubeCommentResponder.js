@@ -25,6 +25,9 @@ import {
 } from 'lucide-react';
 
 import youtubeDiagram from "../../../assets/youtube_comment_automation_diagram.jpg";
+import youtube1 from "../../../assets/screenshots/youtube automation/youtube-1.png";
+import youtube2 from "../../../assets/screenshots/youtube automation/youtube-2.png";
+import youtube3 from "../../../assets/screenshots/youtube automation/youtube-3.png";
 
 export const youtubeCommentResponderConfig = {
   hero: {
@@ -85,9 +88,9 @@ export const youtubeCommentResponderConfig = {
   screenshotGallery: {
     title: 'Module Screenshots',
     frames: [
-      { id: 'yt-1', image: null, imageAlt: 'Module screenshot 1' },
-      { id: 'yt-2', image: null, imageAlt: 'Module screenshot 2' },
-      { id: 'yt-3', image: null, imageAlt: 'Module screenshot 3' },
+      { id: 'yt-1', image: youtube1, imageAlt: 'Module screenshot 1' },
+      { id: 'yt-2', image: youtube2, imageAlt: 'Module screenshot 2' },
+      { id: 'yt-3', image: youtube3, imageAlt: 'Module screenshot 3' },
     ],
   },
   videoDemo: {
