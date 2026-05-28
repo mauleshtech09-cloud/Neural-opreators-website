@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { WHATSAPP_URL, EMAIL_URL } from '../config/contact';
-import { Check, MessageSquare, Mail } from 'lucide-react';
+import { Check, MessageSquare, Mail, X } from 'lucide-react';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import styles from './Pricing.module.css';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const tiers = [
   {
@@ -78,13 +79,46 @@ const Pricing = () => {
     message: '',
   });
   const [status, setStatus] = useState('');
+  const [agreeFreeTerms, setAgreeFreeTerms] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmAgree, setConfirmAgree] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const openConfirm = () => {
+    setConfirmAgree(false);
+    setConfirmOpen(true);
+  };
+
+  const closeConfirm = () => {
+    setConfirmOpen(false);
+    setConfirmAgree(false);
+  };
+
+  useEffect(() => {
+    if (!confirmOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') closeConfirm();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [confirmOpen]);
+
   const handleContactSubmit = async (e) => {
     e.preventDefault();
+    if (!agreeFreeTerms) return;
+    openConfirm();
+  };
+
+  const finalizeSubmission = async () => {
+    if (!confirmAgree) return;
     setStatus('sending');
     try {
       const response = await fetch('http://localhost:5000/api/contact', {
@@ -103,12 +137,16 @@ const Pricing = () => {
           budget: '',
           message: '',
         });
+        setAgreeFreeTerms(false);
+        closeConfirm();
       } else {
         setStatus('error');
+        closeConfirm();
       }
     } catch (err) {
       console.error(err);
       setStatus('error');
+      closeConfirm();
     }
   };
 
@@ -169,6 +207,46 @@ const Pricing = () => {
         </div>
 
         <div id="contact" className={`glass ${styles.contactSection}`}>
+          <Reveal>
+            <div className={styles.freeOffer}>
+              <div className={styles.freeOfferHead}>
+                <h2 className={styles.freeOfferTitle}>🚀 Get Your First Basic Automation Setup Free</h2>
+                <p className={styles.freeOfferSubtitle}>
+                  We are currently onboarding selected businesses for complimentary automation setup projects to
+                  help streamline repetitive workflows using AI and automation systems.
+                </p>
+              </div>
+
+              <div className={styles.freeOfferGrid}>
+                <div className={styles.freeOfferCard}>
+                  <h3 className={styles.freeOfferCardTitle}>Included Features</h3>
+                  <ul className={styles.freeOfferList}>
+                    <li>Instagram DM automation</li>
+                    <li>Lead capture systems</li>
+                    <li>Google Sheets integrations</li>
+                    <li>Slack / Email notifications</li>
+                    <li>Basic workflow automation</li>
+                  </ul>
+                  <div className={styles.freeOfferNote}>
+                    Limited onboarding slots available.
+                  </div>
+                </div>
+
+                <div className={`glass ${styles.termsCard}`}>
+                  <h3 className={styles.termsTitle}>Terms &amp; Conditions</h3>
+                  <ul className={styles.termsList}>
+                    <li>Offer valid only for basic automation systems</li>
+                    <li>Advanced AI agents and enterprise systems are excluded</li>
+                    <li>One free setup per business</li>
+                    <li>Client must provide required workflow details and platform access</li>
+                    <li>Delivery timeline depends on project complexity</li>
+                    <li>Neural Operators reserves the right to reject unsuitable projects</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
           <div className="grid-contact">
             <Reveal className={styles.contactIntro}>
               <h2 className={styles.contactTitle}>Ready to Get Started?</h2>
@@ -324,7 +402,23 @@ const Pricing = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '0.5rem' }}>
+                <div className={styles.termsAgreeRow}>
+                  <label className={styles.termsAgreeLabel}>
+                    <input
+                      type="checkbox"
+                      checked={agreeFreeTerms}
+                      onChange={(e) => setAgreeFreeTerms(e.target.checked)}
+                      required
+                    />
+                    <span>I agree to the Terms &amp; Conditions for the free automation setup.</span>
+                  </label>
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  style={{ width: '100%', marginTop: '0.5rem', opacity: agreeFreeTerms ? 1 : 0.7 }}
+                >
                   {status === 'sending' ? 'Sending...' : 'Submit Inquiry'}
                 </Button>
               </form>
@@ -332,6 +426,79 @@ const Pricing = () => {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {confirmOpen && (
+          <motion.div
+            className={styles.confirmOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={closeConfirm}
+          >
+            <motion.div
+              className={styles.confirmModal}
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Free automation submission confirmation"
+            >
+              <button type="button" className={styles.confirmClose} onClick={closeConfirm} aria-label="Close">
+                <X size={18} aria-hidden />
+              </button>
+
+              <h3 className={styles.confirmTitle}>🎉 Free Automation Request Submitted</h3>
+              <p className={styles.confirmText}>
+                Thank you for contacting Neural Operators.
+                <br />
+                <br />
+                Your request for a complimentary automation setup has been received successfully.
+                <br />
+                <br />
+                Our team will review your business requirements and contact you shortly if your project qualifies
+                for the free onboarding program.
+              </p>
+
+              <div className={styles.confirmChecklist}>
+                <p className={styles.confirmChecklistTitle}>Before proceeding, please confirm that:</p>
+                <ul>
+                  <li>You understand this offer applies only to basic automation systems</li>
+                  <li>Advanced/custom enterprise systems are not included</li>
+                  <li>Required business access/details must be provided</li>
+                </ul>
+              </div>
+
+              <label className={styles.confirmAgree}>
+                <input
+                  type="checkbox"
+                  checked={confirmAgree}
+                  onChange={(e) => setConfirmAgree(e.target.checked)}
+                />
+                <span>I confirm that I have read and accepted the Terms &amp; Conditions.</span>
+              </label>
+
+              <div className={styles.confirmActions}>
+                <button type="button" className={styles.confirmSecondary} onClick={closeConfirm}>
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className={styles.confirmPrimary}
+                  onClick={finalizeSubmission}
+                  disabled={!confirmAgree || status === 'sending'}
+                >
+                  {status === 'sending' ? 'Submitting…' : 'Confirm & Submit'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
