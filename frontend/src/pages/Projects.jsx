@@ -40,6 +40,17 @@ const projects = [
   },
   {
     id: 4,
+    name: 'AI Resume Screening Agent',
+    description:
+      'AI-powered recruitment automation that screens resumes, classifies candidates by role, automates interview invites, and centralizes hiring workflows.',
+    tech: ['Gemini AI', 'Make.com', 'PDF.co', 'Gmail'],
+    github: '#',
+    caseStudyPath: '/projects/ai-resume-screening-agent',
+    image:
+      'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 5,
     name: 'Automated Reporting Dashboard',
     description:
       'Internal system aggregating data from 5 different ad platforms into daily summaries sent directly via team notifications.',

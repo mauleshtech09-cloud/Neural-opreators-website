@@ -10,6 +10,7 @@ import Projects from './pages/Projects';
 import Pricing from './pages/Pricing';
 import AILeadQualification from './pages/case-studies/AILeadQualification';
 import YouTubeCommentResponder from './pages/case-studies/YouTubeCommentResponder';
+import AIResumeScreening from './pages/case-studies/AIResumeScreening';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -55,6 +56,10 @@ function App() {
             <Route
               path="/projects/youtube-comment-responder"
               element={<PageTransition><YouTubeCommentResponder /></PageTransition>}
+            />
+            <Route
+              path="/projects/ai-resume-screening-agent"
+              element={<PageTransition><AIResumeScreening /></PageTransition>}
             />
           </Routes>
         </AnimatePresence>
