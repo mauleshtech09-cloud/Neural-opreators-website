@@ -3,7 +3,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const axios = require("axios");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,56 +23,21 @@ if (!fs.existsSync(dataFile)) {
 }
 
 // POST endpoint for contact form
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', (req, res) => {
   try {
-    const {
-  fullName,
-  businessName,
-  email,
-  phone,
-  automationType,
-  budget,
-  message
-} = req.body;
-
-await axios.post(
-  "https://hook.us2.make.com/glgn2dcnof0jb8bdfi2oqe8h48ol6xkm",
-  {
-    fullName,
-    businessName,
-    email,
-    phone,
-    automationType,
-    budget,
-    message
-  }
-);
+    const { name, email, message } = req.body;
     
-    if (
-  !fullName ||
-  !businessName ||
-  !email ||
-  !phone ||
-  !automationType ||
-  !budget ||
-  !message
-) {
-  return res.status(400).json({
-    error: 'All fields are required'
-  });
-}
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
 
     const newMessage = {
-  id: Date.now(),
-  fullName,
-  businessName,
-  email,
-  phone,
-  automationType,
-  budget,
-  message,
-  date: new Date().toISOString()
-};
+      id: Date.now(),
+      name,
+      email,
+      message,
+      date: new Date().toISOString()
+    };
 
     const currentData = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
     currentData.push(newMessage);

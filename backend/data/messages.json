@@ -5,5 +5,27 @@
     "email": "98750789090",
     "message": "jaihop\n",
     "date": "2026-04-24T19:28:20.114Z"
+  },
+  {
+    "id": 1780650767837,
+    "fullName": "Maulesh",
+    "businessName": "Acne corp",
+    "email": "maulesh.cyber0909@gmail.com",
+    "phone": "9875078909",
+    "automationType": "Lead Automation",
+    "budget": "5000",
+    "message": "Lead automation ",
+    "date": "2026-06-05T09:12:47.837Z"
+  },
+  {
+    "id": 1780650926420,
+    "fullName": "jaiho",
+    "businessName": "Acne corp",
+    "email": "maulesh.cyber0909@gmail.com",
+    "phone": "9875078909",
+    "automationType": "Appointment Automation",
+    "budget": "30000",
+    "message": "joker",
+    "date": "2026-06-05T09:15:26.420Z"
   }
 ]
