@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { WHATSAPP_URL, EMAIL_URL } from '../config/contact';
-import { Check, MessageSquare, Mail, X } from 'lucide-react';
+import { Check, MessageSquare, Mail, X, Clock, Wrench, CreditCard } from 'lucide-react';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import styles from './Pricing.module.css';
@@ -11,51 +11,175 @@ const tiers = [
   {
     id: 'basic',
     title: 'Basic Automation',
-    price: '₹2,000',
-    range: 'to ₹3,000',
-    description: 'Perfect for simple business automations.',
+    price: '₹2,000 – ₹4,000',
+    description: 'Perfect for small businesses and basic workflow automation.',
     featured: false,
     accent: false,
     features: [
-      'Simple workflow automation',
-      'WhatsApp or Email automation',
-      'Basic lead handling',
+      'WhatsApp automation',
+      'Instagram DM automation',
+      'Email automation',
+      'Lead capture systems',
+      'Google Sheets integrations',
+      'Basic workflow automation',
       'Small business setup',
     ],
+    bestFor: ['gyms', 'local businesses', 'coaches', 'small stores'],
+    delivery: '2–4 Days',
+    maintenance: '₹499/month',
+    payment: '50% Advance Required',
+    cta: 'Get Started',
   },
   {
     id: 'standard',
     title: 'AI Automation',
-    price: '₹5,000',
-    range: 'to ₹7,000',
-    description: 'Best for growing businesses and workflow scaling.',
+    price: '₹5,000 – ₹9,000',
+    description: 'Best for growing businesses and intelligent workflow scaling.',
     featured: true,
     accent: false,
     features: [
       'CRM integration',
-      'Automated workflows',
       'AI lead qualification',
+      'Automated workflows',
       'Slack / Email notifications',
       'Multi-app automation',
+      'AI-enhanced customer handling',
+      'Dashboard integrations',
     ],
+    bestFor: ['agencies', 'growing businesses', 'lead systems', 'automation scaling'],
+    delivery: '4–7 Days',
+    maintenance: '₹699/month',
+    payment: '50% Advance Required',
+    cta: 'Automate My Business',
   },
   {
     id: 'pro',
-    title: 'AI Agent System',
-    price: '₹8,000',
-    range: 'to ₹12,000',
-    description: 'Advanced AI systems for autonomous operations.',
+    title: 'AI Agent Systems',
+    price: '₹10,000 – ₹20,000+',
+    description: 'Advanced AI systems for smart business operations and automation.',
     featured: false,
     accent: true,
     features: [
       'AI agents',
       'Smart conversational workflows',
+      'AI onboarding systems',
+      'WhatsApp AI assistants',
       'AI customer interaction systems',
       'Multi-platform automation',
       'Advanced integrations',
+      'Reporting & analytics',
     ],
+    bestFor: ['advanced businesses', 'customer support automation', 'AI onboarding', 'scalable operations'],
+    delivery: '1–3 Weeks',
+    maintenance: '₹999/month',
+    payment: '50% Advance Required',
+    cta: 'Build AI System',
   },
 ];
+
+const consultationFeatures = [
+  'Workflow analysis',
+  'Automation opportunity discovery',
+  'Lead handling suggestions',
+  'AI integration recommendations',
+  'Basic automation demo guidance',
+];
+
+const paymentTerms = [
+  '50% advance payment required before project initiation',
+  'Remaining payment after final delivery and testing',
+  'Monthly maintenance plans available separately',
+  'Custom pricing available for advanced AI systems',
+];
+
+const maintenancePoints = [
+  'Monthly maintenance available from ₹499–₹999/month depending on system complexity',
+  'Includes monitoring, minor fixes, workflow updates, and technical support',
+  'AI prompt optimization included in premium plans',
+];
+
+const consultationTerms = [
+  'Consultation valid for workflow analysis and starter recommendations',
+  'Advanced AI agents and enterprise systems are quoted separately',
+  'One complimentary consultation per business',
+  'Client must provide required workflow details and platform access',
+  'Delivery timeline depends on project complexity',
+  'Neural Operators reserves the right to reject unsuitable projects',
+];
+
+function PricingCard({ tier }) {
+  return (
+    <div className={`glass ${styles.pricingCard} ${tier.featured ? styles.featuredCard : ''}`}>
+      {tier.featured && <span className={styles.popularBadge}>MOST POPULAR</span>}
+
+      <div className={styles.pricingCardHeader}>
+        <h3
+          className={`${styles.pricingCardTitle} ${
+            tier.featured ? styles.pricingCardTitleFeatured : ''
+          }`}
+        >
+          {tier.title}
+        </h3>
+        <p className={styles.priceDisplay}>{tier.price}</p>
+        <p className={styles.pricingDesc}>{tier.description}</p>
+      </div>
+
+      <ul className={styles.featureList}>
+        {tier.features.map((feature) => (
+          <li key={feature} className={styles.featureItem}>
+            <Check
+              size={18}
+              color={tier.accent ? 'var(--accent)' : 'var(--primary)'}
+              style={{ flexShrink: 0, marginTop: 2 }}
+              aria-hidden
+            />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className={styles.bestForBlock}>
+        <p className={styles.bestForLabel}>Best For</p>
+        <div className={styles.bestForTags}>
+          {tier.bestFor.map((item) => (
+            <span key={item} className={styles.bestForTag}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.metaGrid}>
+        <div className={styles.metaItem}>
+          <Clock size={16} aria-hidden />
+          <span>
+            <strong>Delivery</strong> {tier.delivery}
+          </span>
+        </div>
+        <div className={styles.metaItem}>
+          <Wrench size={16} aria-hidden />
+          <span>
+            <strong>Maintenance</strong> {tier.maintenance}
+          </span>
+        </div>
+        <div className={styles.metaItem}>
+          <CreditCard size={16} aria-hidden />
+          <span>
+            <strong>Payment</strong> {tier.payment}
+          </span>
+        </div>
+      </div>
+
+      <Button
+        variant={tier.featured ? 'primary' : tier.accent ? 'accent' : 'secondary'}
+        className={styles.pricingCta}
+        href="#contact"
+      >
+        {tier.cta}
+      </Button>
+    </div>
+  );
+}
 
 const Pricing = () => {
   const { hash } = useLocation();
@@ -154,93 +278,74 @@ const Pricing = () => {
     <div className="section">
       <div className="container">
         <Reveal>
-          <h1 className="section-title">Transparent Pricing</h1>
-          <p className="section-subtitle">
-            Choose the perfect automation plan to elevate your business operations. No hidden fees.
-          </p>
+          <div className={styles.pricingHeader}>
+            <h1 className="section-title">Transparent Pricing</h1>
+            <p className="section-subtitle">
+              Choose the perfect automation plan to elevate your business operations. No hidden fees.
+            </p>
+          </div>
         </Reveal>
 
-        <div className={`grid grid-cols-3 ${styles.pricingGrid}`}>
+        <div className={styles.pricingGrid}>
           {tiers.map((tier, idx) => (
             <Reveal key={tier.id} delay={idx * 0.08}>
-              <div
-                className={`card glass ${styles.pricingCard} ${
-                  tier.featured ? styles.featuredCard : ''
-                }`}
-              >
-                {tier.featured && <span className={styles.popularBadge}>MOST POPULAR</span>}
-                <h3
-                  className={`${styles.pricingCardTitle} ${
-                    tier.featured ? styles.pricingCardTitleFeatured : ''
-                  }`}
-                >
-                  {tier.title}
-                </h3>
-                <div className={styles.priceRow}>
-                  <span className={styles.priceMain}>{tier.price}</span>
-                  <span className={styles.priceRange}>{tier.range}</span>
-                </div>
-                <p className={styles.pricingDesc}>{tier.description}</p>
-                <ul className={styles.featureList}>
-                  {tier.features.map((feature) => (
-                    <li key={feature} className={styles.featureItem}>
-                      <Check
-                        size={20}
-                        color={tier.accent ? 'var(--accent)' : 'var(--primary)'}
-                        style={{ flexShrink: 0, marginTop: 2 }}
-                        aria-hidden
-                      />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  variant={tier.featured ? 'primary' : 'secondary'}
-                  style={{ width: '100%' }}
-                  href="#contact"
-                >
-                  Get Started
-                </Button>
-              </div>
+              <PricingCard tier={tier} />
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.1}>
+          <div className={styles.infoGrid}>
+            <div className={`glass ${styles.infoCard}`}>
+              <h2 className={styles.infoCardTitle}>💳 Payment Terms</h2>
+              <ul className={styles.infoList}>
+                {paymentTerms.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className={`glass ${styles.infoCard}`}>
+              <h2 className={styles.infoCardTitle}>🔧 Maintenance &amp; Support</h2>
+              <ul className={styles.infoList}>
+                {maintenancePoints.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Reveal>
 
         <div id="contact" className={`glass ${styles.contactSection}`}>
           <Reveal>
             <div className={styles.freeOffer}>
               <div className={styles.freeOfferHead}>
-                <h2 className={styles.freeOfferTitle}>🚀 Get Your First Basic Automation Setup Free</h2>
+                <h2 className={styles.freeOfferTitle}>🚀 Free Automation Consultation</h2>
                 <p className={styles.freeOfferSubtitle}>
-                  We are currently onboarding selected businesses for complimentary automation setup projects to
-                  help streamline repetitive workflows using AI and automation systems.
+                  We provide selected businesses with a complimentary automation consultation and starter
+                  workflow analysis to identify opportunities for AI and workflow optimization.
                 </p>
               </div>
 
               <div className={styles.freeOfferGrid}>
                 <div className={styles.freeOfferCard}>
-                  <h3 className={styles.freeOfferCardTitle}>Included Features</h3>
+                  <h3 className={styles.freeOfferCardTitle}>What&apos;s Included</h3>
                   <ul className={styles.freeOfferList}>
-                    <li>Instagram DM automation</li>
-                    <li>Lead capture systems</li>
-                    <li>Google Sheets integrations</li>
-                    <li>Slack / Email notifications</li>
-                    <li>Basic workflow automation</li>
+                    {consultationFeatures.map((feature) => (
+                      <li key={feature}>
+                        <Check size={16} color="var(--primary)" aria-hidden />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
                   </ul>
-                  <div className={styles.freeOfferNote}>
-                    Limited onboarding slots available.
-                  </div>
+                  <div className={styles.freeOfferNote}>Limited onboarding slots available.</div>
                 </div>
 
                 <div className={`glass ${styles.termsCard}`}>
                   <h3 className={styles.termsTitle}>Terms &amp; Conditions</h3>
                   <ul className={styles.termsList}>
-                    <li>Offer valid only for basic automation systems</li>
-                    <li>Advanced AI agents and enterprise systems are excluded</li>
-                    <li>One free setup per business</li>
-                    <li>Client must provide required workflow details and platform access</li>
-                    <li>Delivery timeline depends on project complexity</li>
-                    <li>Neural Operators reserves the right to reject unsuitable projects</li>
+                    {consultationTerms.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -410,7 +515,7 @@ const Pricing = () => {
                       onChange={(e) => setAgreeFreeTerms(e.target.checked)}
                       required
                     />
-                    <span>I agree to the Terms &amp; Conditions for the free automation setup.</span>
+                    <span>I agree to the Terms &amp; Conditions for the free automation consultation.</span>
                   </label>
                 </div>
 
@@ -446,29 +551,29 @@ const Pricing = () => {
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
-              aria-label="Free automation submission confirmation"
+              aria-label="Consultation submission confirmation"
             >
               <button type="button" className={styles.confirmClose} onClick={closeConfirm} aria-label="Close">
                 <X size={18} aria-hidden />
               </button>
 
-              <h3 className={styles.confirmTitle}>🎉 Free Automation Request Submitted</h3>
+              <h3 className={styles.confirmTitle}>🎉 Consultation Request Submitted</h3>
               <p className={styles.confirmText}>
                 Thank you for contacting Neural Operators.
                 <br />
                 <br />
-                Your request for a complimentary automation setup has been received successfully.
+                Your request for a complimentary automation consultation has been received successfully.
                 <br />
                 <br />
-                Our team will review your business requirements and contact you shortly if your project qualifies
-                for the free onboarding program.
+                Our team will review your business requirements and contact you shortly if your project
+                qualifies for the consultation program.
               </p>
 
               <div className={styles.confirmChecklist}>
                 <p className={styles.confirmChecklistTitle}>Before proceeding, please confirm that:</p>
                 <ul>
-                  <li>You understand this offer applies only to basic automation systems</li>
-                  <li>Advanced/custom enterprise systems are not included</li>
+                  <li>You understand this consultation covers workflow analysis and recommendations</li>
+                  <li>Advanced/custom enterprise systems are quoted separately</li>
                   <li>Required business access/details must be provided</li>
                 </ul>
               </div>
