@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { WHATSAPP_URL, EMAIL_URL } from '../config/contact';
+import { CONTACT_API_URL } from '../config/api';
 import { Check, MessageSquare, Mail, X, Clock, Wrench, CreditCard } from 'lucide-react';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
@@ -245,11 +246,22 @@ const Pricing = () => {
     if (!confirmAgree) return;
     setStatus('sending');
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const payload = {
+        fullName: formData.fullName,
+        businessName: formData.businessName,
+        email: formData.email,
+        phone: formData.phone,
+        automationType: formData.automationType,
+        budget: formData.budget,
+        message: formData.message,
+      };
+
+      const response = await fetch(CONTACT_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
+
       if (response.ok) {
         setStatus('success');
         setFormData({
@@ -264,11 +276,13 @@ const Pricing = () => {
         setAgreeFreeTerms(false);
         closeConfirm();
       } else {
+        const errorBody = await response.json().catch(() => ({}));
+        console.error('Contact form submission failed:', response.status, errorBody);
         setStatus('error');
         closeConfirm();
       }
     } catch (err) {
-      console.error(err);
+      console.error('Contact form network error:', err);
       setStatus('error');
       closeConfirm();
     }

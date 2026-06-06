@@ -1,17 +1,25 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const axios = require("axios");
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const dataFile = path.join(__dirname, 'data', 'messages.json');
+const MAKE_WEBHOOK_URL =
+  process.env.MAKE_WEBHOOK_URL ||
+  'https://hook.us2.make.com/glgn2dcnof0jb8bdfi2oqe8h48ol6xkm';
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+  })
+);
+app.use(express.json());
 
 // Ensure data folder exists
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
@@ -26,64 +34,80 @@ if (!fs.existsSync(dataFile)) {
 // POST endpoint for contact form
 app.post('/api/contact', async (req, res) => {
   try {
-    const {
-  fullName,
-  businessName,
-  email,
-  phone,
-  automationType,
-  budget,
-  message
-} = req.body;
+    console.log('[contact] Incoming request body:', req.body);
 
-await axios.post(
-  "https://hook.us2.make.com/glgn2dcnof0jb8bdfi2oqe8h48ol6xkm",
-  {
-    fullName,
-    businessName,
-    email,
-    phone,
-    automationType,
-    budget,
-    message
-  }
-);
-    
+    const {
+      fullName,
+      businessName,
+      email,
+      phone,
+      automationType,
+      budget,
+      message,
+    } = req.body;
+
     if (
-  !fullName ||
-  !businessName ||
-  !email ||
-  !phone ||
-  !automationType ||
-  !budget ||
-  !message
-) {
-  return res.status(400).json({
-    error: 'All fields are required'
-  });
-}
+      !fullName ||
+      !businessName ||
+      !email ||
+      !phone ||
+      !automationType ||
+      !budget ||
+      !message
+    ) {
+      console.warn('[contact] Validation failed — missing required fields');
+      return res.status(400).json({
+        error: 'All fields are required',
+      });
+    }
+
+    const payload = {
+      fullName,
+      businessName,
+      email,
+      phone,
+      automationType,
+      budget,
+      message,
+    };
+
+    try {
+      const webhookResponse = await axios.post(MAKE_WEBHOOK_URL, payload, {
+        timeout: 30000,
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log('[contact] Make.com webhook success:', webhookResponse.status, webhookResponse.data);
+    } catch (webhookError) {
+      console.error(
+        '[contact] Make.com webhook error:',
+        webhookError.response?.status,
+        webhookError.response?.data || webhookError.message
+      );
+      return res.status(502).json({
+        error: 'Failed to forward inquiry to automation pipeline.',
+      });
+    }
 
     const newMessage = {
-  id: Date.now(),
-  fullName,
-  businessName,
-  email,
-  phone,
-  automationType,
-  budget,
-  message,
-  date: new Date().toISOString()
-};
+      id: Date.now(),
+      fullName,
+      businessName,
+      email,
+      phone,
+      automationType,
+      budget,
+      message,
+      date: new Date().toISOString(),
+    };
 
     const currentData = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
     currentData.push(newMessage);
-    
     fs.writeFileSync(dataFile, JSON.stringify(currentData, null, 2));
 
-    console.log('New lead received:', newMessage);
+    console.log('[contact] Lead saved successfully:', newMessage);
     return res.status(200).json({ success: true, message: 'Message saved successfully.' });
   } catch (error) {
-    console.error('Error saving message:', error);
+    console.error('[contact] Unexpected server error:', error);
     return res.status(500).json({ error: 'Internal server error.' });
   }
 });

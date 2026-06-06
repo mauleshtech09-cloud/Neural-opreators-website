@@ -27,5 +27,49 @@
     "budget": "30000",
     "message": "joker",
     "date": "2026-06-05T09:15:26.420Z"
+  },
+  {
+    "id": 1780720725137,
+    "fullName": "John",
+    "businessName": "Acme",
+    "email": "john@test.com",
+    "phone": "1234567890",
+    "automationType": "Lead Automation",
+    "budget": "5000",
+    "message": "test message",
+    "date": "2026-06-06T04:38:45.137Z"
+  },
+  {
+    "id": 1780720800446,
+    "fullName": "Jane",
+    "businessName": "Biz",
+    "email": "j@test.com",
+    "phone": "999",
+    "automationType": "AI Agent",
+    "budget": "10000",
+    "message": "hello",
+    "date": "2026-06-06T04:40:00.446Z"
+  },
+  {
+    "id": 1780720970020,
+    "fullName": "Proxy Test",
+    "businessName": "Co",
+    "email": "p@test.com",
+    "phone": "555",
+    "automationType": "Lead Automation",
+    "budget": "5000",
+    "message": "via test",
+    "date": "2026-06-06T04:42:50.020Z"
+  },
+  {
+    "id": 1780721154395,
+    "fullName": "Vite Proxy",
+    "businessName": "Test",
+    "email": "vite@test.com",
+    "phone": "111",
+    "automationType": "WhatsApp Automation",
+    "budget": "3000",
+    "message": "proxy test",
+    "date": "2026-06-06T04:45:54.395Z"
   }
 ]
